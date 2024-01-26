@@ -52,7 +52,7 @@ app.post('/register', async (req, res) => {
     try {
         const { name, email, password, repeatPassword } = req.body;
 
-        // Validate form fields
+        // Validate form field
         if (!name || !email || !password || !repeatPassword) {
             return res.status(400).send("All fields must be filled out.");
         }
