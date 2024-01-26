@@ -23,30 +23,23 @@
                             <div class="card-body p-5">
                                 <h2 class="text-uppercase text-center mb-5">Log in</h2>
 
-                                <form>
-
+                                <form action="/login" method="POST" onsubmit="return validateLoginForm()">
                                     <div class="form-outline mb-4">
-                                        <input type="email" id="form3Example3cg" class="form-control form-control-lg" />
-                                        <label class="form-label" for="form3Example3cg">Your Email</label>
+                                        <input type="email" id="email" name="email" class="form-control form-control-lg" required />
+                                        <label class="form-label" for="email">Your Email</label>
                                     </div>
-
+                                
                                     <div class="form-outline mb-4">
-                                        <input type="password" id="form3Example4cg"
-                                            class="form-control form-control-lg" />
-                                        <label class="form-label" for="form3Example4cg">Password</label>
+                                        <input type="password" id="password" name="password" class="form-control form-control-lg" required />
+                                        <label class="form-label" for="password">Password</label>
                                     </div>
 
                                     <div class="d-flex justify-content-center">
-                                        <button type="button"
-                                            class="btn border border-success btn-block btn-lg text-body me-4">Log in</button>
-                                        
-                                            <button type="button"
-                                            class="btn border border-success btn-block btn-lg text-body"><a
-                                                href="index.html" class="text-decoration-none text-body">Go back</a></button>
+                                        <button type="submit" class="btn border border-success btn-block btn-lg text-body me-4">Log in</button>
+                                        <button type="button" class="btn border border-success btn-block btn-lg text-body"><a href="index.html" class="text-decoration-none text-body">Go back</a></button>
                                     </div>
-
-                                    <p class="text-center text-muted mt-5 mb-0">Don't have an account? <a
-                                            href="registr" class="fw-bold text-body"><u>Register</u></a></p>
+                                
+                                    <p class="text-center text-muted mt-5 mb-0">Don't have an account? <a href="registr" class="fw-bold text-body"><u>Register</u></a></p>
 
                                 </form>
 
@@ -65,5 +58,18 @@
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
         crossorigin="anonymous"></script>
 </body>
+<script>
+    function validateLoginForm() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        if (email === "" || password === "") {
+            alert("Both email and password are required.");
+            return false;
+        }
+
+        return true;
+    }
+</script>
 
 </html>
