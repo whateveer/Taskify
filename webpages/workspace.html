@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Taskify</title>
+  <meta property="og:title" content="Landify" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta property="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles/tasks.css" />
+  <link href="styles/index.css" rel="stylesheet" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <h1>WELCOME TO YOUR PERSONAL WORKSPACE</h1>
+
+  <form id="taskForm" class="task-form">
+    <h4>Task manager</h4>
+    <div class="form-control">
+      <input type="text" name="name" id="taskName" class="task-input" placeholder="e.g. homework" />
+      <button type="submit" class="btn submit-btn">Submit</button>
+    </div>
+    <div class="form-alert"></div>
+  </form>
+
+  <section class="tasks-container">
+    <p class="loading-text">Loading...</p>
+    <div class="tasks"></div>
+  </section>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Axios -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Custom JavaScript -->
+  <script src="scripts/workspace.js"></script>
+</body>
+
+</html>
