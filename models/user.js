@@ -2,9 +2,11 @@ const mongoose = require("mongoose");
 
 // Create a MongoDB Schema
 const userSchema = new mongoose.Schema({
-    name: String,
-    email: String,
-    password: String,
+  name: String,
+  email: String,
+  password: String,
+  isActivated: { type: Boolean, default: false },
+  activationLink: String,
 });
 
 // Create a MongoDB Model
