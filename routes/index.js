@@ -76,23 +76,25 @@ router.post("/register", async (req, res) => {
     const tokens = tokenService.generateTokens({ ...userDTO });
     await tokenService.saveToken(userDTO.id, tokens.refreshToken);
 
+    const userData = { ...tokens, newUser: userDTO };
     //Saving refresh token in cookies
-    res.cookie("RefreshToken", tokens.refreshToken, {
+    res.cookie("refreshToken", userData.refreshToken, {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
 
-    return res.json({ ...tokens, newUser: userDTO });
+    //return res.json({ ...tokens, newUser: userDTO });
     // return res.json(tokens)
 
-    res.status(201).send("User registered successfully!");
+    res.status(201).send("User registered successfully! Check email");
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
   }
 });
 
-router.post("/login", async (req, res) => {  //ALSO ADD TOKEN 
+router.post("/login", async (req, res) => {
+  //ALSO ADD TOKEN
   try {
     const { email, password } = req.body;
 
@@ -118,7 +120,13 @@ router.post("/login", async (req, res) => {  //ALSO ADD TOKEN
     const userDTO = new UserDTO(user);
     const tokens = tokenService.generateTokens({ ...userDTO });
     await tokenService.saveToken(userDTO.id, tokens.refreshToken);
-    return res.json({ ...tokens, user: userDTO });
+
+    const userData = { ...tokens, newUser: userDTO };
+    //Saving refresh token in cookies
+    res.cookie("refreshToken", userData.refreshToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    });
 
     // Redirect to the home page (workspace) after successful login
 
@@ -131,6 +139,11 @@ router.post("/login", async (req, res) => {  //ALSO ADD TOKEN
 
 router.post("/logout", async (req, res) => {
   try {
+    const { refreshToken } = req.cookies;
+    const token = await tokenService.removeToken(refreshToken);
+
+    res.clearCookie("refreshToken");
+    return res.json(token);
   } catch (e) {}
 });
 
@@ -147,15 +160,42 @@ router.get("/activate/:link", async (req, res) => {
     await user.save();
 
     //THEN REDIRECT USER TO THE PAGE
-    //res.redirect(process.env.CLIENT_URL)
+    // res.redirect(process.env.CLIENT_URL)
+    res.redirect("/login");
 
     //что то не редиректится ¯\_(ツ)_/¯
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
 });
 
 router.get("/refresh", async (req, res) => {
   try {
-    res.json(["123", "456"]);
+    const { refreshToken } = req.cookies;
+
+    if (!refreshToken) {
+      throw new Error("User unauthorized");
+    }
+
+    const userDataToken = tokenService.validateRefreshToken(refreshToken);
+    const tokenFromDB = await tokenService.findToken(refreshToken)
+    if(!userDataToken || !tokenFromDB){
+      throw new Error("User unauthorized")
+    }
+
+    const user = await User.findById(userDataToken.id)
+    const userDTO = new UserDTO(user);
+    const tokens = tokenService.generateTokens({ ...userDTO });
+
+    await tokenService.saveToken(userDTO.id, tokens.refreshToken);
+
+    const userData = { ...tokens, newUser: userDTO };
+
+    //Saving refresh token in cookies
+    res.cookie("refreshToken", userData.refreshToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    });
   } catch (e) {}
 });
 
