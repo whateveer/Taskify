@@ -1,6 +1,7 @@
 # Taskify: Comprehensive Technical Report
 
 **Team Members:** Abidzhanov Iliyas, Ali Samal, Tuleubayeva Marzhan
+
 **Group:** SE-2219
 
 ## Project Overview
