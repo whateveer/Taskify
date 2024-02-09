@@ -1,4 +1,4 @@
-# Taskify: Comprehensive Technical Report
+# Taskify: Project Report
 
 **Team Members:** Abidzhanov Iliyas, Ali Samal, Tuleubayeva Marzhan
 
