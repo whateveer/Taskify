@@ -94,3 +94,28 @@ npm run dev
 3. **Task Management**: Perform CRUD operations on tasks (create, retrieve, update, delete) and verify their correctness with database interactions.
 
 4. **User Authentication**: Test user login and logout functionality. Verify that user authentication tokens are correctly generated and managed in the Tokens collection.
+
+### Screenshots
+
+![login](image.png)
+![reg](image-1.png)
+![to-do-list](image-2.png)
+
+**Future features and technical solutions (just temporary list) :**
+
+- The ability to share with other users via mail (like in notion), to have a common workspace 
+-  To the previous point: whoever creates this workspace should be able to regulate access (just like in the notion or google docs, allow only reading or editing too). It will be useful for team leaders, etc.
+- Calendar
+- LogOut
+- Pomodoro
+- RestFul API
+- Security
+- Error Handling development
+- Import files (JS Multer Library)
+- Forgot password functionality
+- Rate limiting
+- Recycle bin (periodic cleaning of the recycle bin and the ability to restore records before the expiration date)
+- Frontend development
+- Dashboard or something like trello workspace
+- Unit tests
+- Deployment
