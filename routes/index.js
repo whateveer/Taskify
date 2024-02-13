@@ -94,7 +94,6 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  //ALSO ADD TOKEN
   try {
     const { email, password } = req.body;
 
@@ -162,8 +161,6 @@ router.get("/activate/:link", async (req, res) => {
     //THEN REDIRECT USER TO THE PAGE
     // res.redirect(process.env.CLIENT_URL)
     res.redirect("/login");
-
-    //что то не редиректится ¯\_(ツ)_/¯
   } catch (e) {
     console.error(e);
   }
@@ -178,12 +175,12 @@ router.get("/refresh", async (req, res) => {
     }
 
     const userDataToken = tokenService.validateRefreshToken(refreshToken);
-    const tokenFromDB = await tokenService.findToken(refreshToken)
-    if(!userDataToken || !tokenFromDB){
-      throw new Error("User unauthorized")
+    const tokenFromDB = await tokenService.findToken(refreshToken);
+    if (!userDataToken || !tokenFromDB) {
+      throw new Error("User unauthorized");
     }
 
-    const user = await User.findById(userDataToken.id)
+    const user = await User.findById(userDataToken.id);
     const userDTO = new UserDTO(user);
     const tokens = tokenService.generateTokens({ ...userDTO });
 
@@ -191,7 +188,6 @@ router.get("/refresh", async (req, res) => {
 
     const userData = { ...tokens, newUser: userDTO };
 
-    //Saving refresh token in cookies
     res.cookie("refreshToken", userData.refreshToken, {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       httpOnly: true,

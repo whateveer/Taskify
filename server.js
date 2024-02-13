@@ -2,8 +2,9 @@ require("dotenv").config();
 const express = require("express");
 const taskRoutes = require("./routes/tasks");
 const connectDB = require("./config/database");
-const routes = require("./routes/index"); // /index added
+const routes = require("./routes/index");
 const cookieParser = require("cookie-parser");
+const authMiddleware = require("./middlewares/auth-middleware");
 
 const app = express();
 const port = 3000;
@@ -28,7 +29,7 @@ app.use(cookieParser());
 
 // Use routes
 app.use("/", routes);
-app.use("/api/v1/tasks", taskRoutes);
+app.use("/api/v1/tasks", authMiddleware, taskRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(port, () =>
