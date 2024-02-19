@@ -27,8 +27,16 @@ router.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "../webpages/login.html"));
 });
 
-router.get("/workspace", (req, res) => {
-  res.sendFile(path.join(__dirname, "../webpages/workspace.html"));
+router.get('/workspace/todo', (req, res) => {
+  res.sendFile(path.join(__dirname, '../webpages/todo.html'));
+});
+
+router.get('/workspace/pomadorro', (req, res) => {
+  res.sendFile(path.join(__dirname, '../webpages/pomodorro.html'));
+});
+
+router.get('/workspace/calendar', (req, res) => {
+  res.sendFile(path.join(__dirname, '../webpages/todo.html'));
 });
 
 router.post("/register", async (req, res) => {

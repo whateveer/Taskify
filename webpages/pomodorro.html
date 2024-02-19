@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:og="http://ogp.me/ns#">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <link rel="stylesheet" href="../styles/pom_style.css" />
+  <link rel="manifest" href="/manifest.json" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <meta property="og:title" content="Pomofocus" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pomofocus.io" />
+  <meta property="og:image" content="https://pomofocus.io/images/ogimage.png" />
+  <meta name="saashub-verification" content="292uvoz7flke" />
+  <title>Pomodoro</title>
+  <meta name="description" content="A simple Pomodoro Timer app that works on a desktop & mobile browser. Pomofucus will help you manage your time and let you focus on any tasks such as study, writing, or coding." />
+</head>
+<body ontouchstart="">
+  <button class="btn btn-primary position-absolute ms-2" data-bs-toggle="offcanvas" href="#menu" role="button" aria-controls="menu">
+    Menu
+  </button>
+  <main>
+    <div id="target">
+      <div class="spinner__wrapper">
+        <img class="spinner__img" src="/images/icon-white2.png" />
+        <div class="spinner__text">Loading...</div>
+      </div>
+    </div>
+    <div class="heroimage container">
+      <h1 class="heroimage__title">An online Pomodoro Timer to boost your productivity</h1>
+    </div>
+    <div class="timer-controls">
+      <button class="timer-btn" id="pomodoro">Pomodoro</button>
+      <button class="timer-btn" id="short-break">Short Break</button>
+      <button class="timer-btn" id="long-break">Long Break</button>
+    </div>
+    <div class="timer-display" id="timer">25:00</div>
+    <button class="timer-btn" id="start">START</button>
+    <button class="timer-btn" id="pause">PAUSE</button>
+    <button class="timer-btn" id="continue">RESUME</button>
+    <div class="tasks-section">
+      <div class="task" id="task1">
+        <input type="text" class="task-input" placeholder="Add Task" />
+        <button class="task-btn" id="add-task">+</button>
+      </div>
+      <!-- Tasks will be added here dynamically -->
+    </div>
+    <div class="task-footer">
+      <div>Pomos: 0/4</div>
+      <div>Finish At: 16:41 (1.9h)</div>
+    </div>
+    <div class="pomodoro container">
+      <h2 class="catchcopy__header">How to use the Pomodoro Timer?</h2>
+      <ol class="features__list-ol">
+        <li><strong>Add tasks</strong> to work on today</li>
+        <li><strong>Set estimate pomodoros</strong> (1 = 25min of work) for each tasks</li>
+        <li><strong>Select a task</strong> to work on</li>
+        <li><strong>Start timer</strong> and focus on the task for 25 minutes</li>
+        <li><strong>Take a break</strong> for 5 minutes when the alarm ring</li>
+        <li><strong>Iterate</strong> 3-5 until you finish the tasks</li>
+      </ol>
+    </div>
+    <div class="features container">
+      <h2 class="catchcopy__header">Basic Features</h2>
+      <ul class="features__list">
+        <li><strong>Estimate Finish Time:</strong> Get an estimate of the time required to complete your daily tasks.</li>
+        <li><strong>Add Templates:</strong> Save your repetitive tasks as templates and add them with just one click.</li>
+        <li><strong>Visual Reports:</strong> See how much time you've focused each day, week, and month.</li>
+        <li><strong>Custom Settings:</strong> Personalize your focus/break time, alarm sounds, background sounds, and more.</li>
+      </ul>
+    </div>
+  </main>
+ 
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="menu" aria-labelledby="offcanvasLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasLabel">Menu</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="list-group">
+            <a href="/workspace/todo" class="list-group-item list-group-item-action">To-Do List</a>
+            <a href="/workspace/pomadorro" class="list-group-item list-group-item-action">Pomadorro</a>
+            <a href="/workspace/calendar" class="list-group-item list-group-item-action">Schedule</a>
+            <a href="/workspace/" class="list-group-item list-group-item-action">Something</a>
+            <a href="/workspace/" class="list-group-item list-group-item-action">Something Else</a>
+        </div>
+    </div>
+</div> 
+  <script>
+    const timeWorker = new Worker('timeWorker.js');
+  </script>
+  <script src="../scripts/script.js"></script>
+  <script src="https://js.stripe.com/v3" async></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+</body>
+</html>
