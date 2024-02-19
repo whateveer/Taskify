@@ -83,10 +83,11 @@ router.post("/register", async (req, res) => {
       httpOnly: true,
     });
 
-    //return res.json({ ...tokens, newUser: userDTO });
+    
     // return res.json(tokens)
 
     res.status(201).send("User registered successfully! Check email");
+    return { ...tokens, newUser: userDTO };
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -128,8 +129,12 @@ router.post("/login", async (req, res) => {
     });
 
     // Redirect to the home page (workspace) after successful login
+    //res.redirect("/workspace");
+    
+    // return {...tokens, user: userDTO}
+    //console.log({...tokens, user: userDTO})
 
-    res.redirect("/workspace");
+    res.status(200).json({...tokens});
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
