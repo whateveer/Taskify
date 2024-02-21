@@ -9,6 +9,7 @@ const uuid = require("uuid");
 const mailService = require("../service/mail-service");
 const tokenService = require("../service/token-service");
 const UserDTO = require("../dtos/user-dto");
+const Event = require('../models/event.js');
 
 // Middleware for parsing JSON data
 router.use(bodyParser.json());
@@ -36,7 +37,7 @@ router.get('/workspace/pomadorro', (req, res) => {
 });
 
 router.get('/workspace/calendar', (req, res) => {
-  res.sendFile(path.join(__dirname, '../webpages/calendar.html'));
+  res.sendFile(path.join(__dirname, '../webpages/todo.html'));
 });
 
 router.post("/register", async (req, res) => {
