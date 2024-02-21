@@ -9,6 +9,7 @@ const uuid = require("uuid");
 const mailService = require("../service/mail-service");
 const tokenService = require("../service/token-service");
 const UserDTO = require("../dtos/user-dto");
+const Event = require('../models/event.js');
 
 // Middleware for parsing JSON data
 router.use(bodyParser.json());
@@ -36,7 +37,45 @@ router.get('/workspace/pomadorro', (req, res) => {
 });
 
 router.get('/workspace/calendar', (req, res) => {
-  res.sendFile(path.join(__dirname, '../webpages/todo.html'));
+  res.sendFile(path.join(__dirname, '../webpages/calendar.html'));
+});
+
+
+router.get('/api/events', async (req, res) => {
+  try {
+    const events = await Event.find();
+    res.json(events);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+// Add event
+router.post('/api/events', async (req, res) => {
+  try {
+    const event = new Event(req.body);
+    await event.save();
+    res.status(201).json(event);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+// Delete event
+router.delete('/api/events/:id', async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+    await event.remove();
+    res.json({ message: 'Event removed' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server Error' });
+  }
 });
 
 router.post("/register", async (req, res) => {
