@@ -36,7 +36,7 @@ router.get('/workspace/pomadorro', (req, res) => {
 });
 
 router.get('/workspace/calendar', (req, res) => {
-  res.sendFile(path.join(__dirname, '../webpages/todo.html'));
+  res.sendFile(path.join(__dirname, '../webpages/calendar.html'));
 });
 
 router.post("/register", async (req, res) => {
@@ -136,13 +136,18 @@ router.post("/login", async (req, res) => {
       httpOnly: true,
     });
 
+    res.cookie("accessToken","Bearer "+ userData.accessToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    });
+
+
     // Redirect to the home page (workspace) after successful login
-    //res.redirect("/workspace");
+    res.redirect("/workspace/todo");
     
     // return {...tokens, user: userDTO}
-    //console.log({...tokens, user: userDTO})
-
-    res.status(200).json({...tokens});
+    //res.setHeader('Authorization', 'Bearer '+ tokens.accessToken);
+    //res.status(200).json({...tokens});
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");

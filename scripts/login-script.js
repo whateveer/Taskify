@@ -27,7 +27,7 @@ document
         // Store tokens in localStorage
         localStorage.setItem("ACCESS_TOKEN",data.accessToken);
         // Redirect to workspace or do any other necessary actions
-        window.location.href = "/workspace";
+        //window.location.href = "/workspace";
       })
       .catch((error) => {
         console.error("There was a problem with the fetch operation:", error);
