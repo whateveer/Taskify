@@ -3,7 +3,6 @@ const express = require("express");
 const router = express.Router();
 const Task = require("../models/task");
 
-
 // Get all tasks
 router.get("/", async (req, res) => {
   try {
@@ -17,6 +16,8 @@ router.get("/", async (req, res) => {
 // Add a new task
 router.post("/", async (req, res) => {
   try {
+    const userId = req.user
+    console.log("dcd",userId.id)
     const task = new Task({
       text: req.body.text,
     });
