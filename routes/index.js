@@ -37,7 +37,7 @@ router.get('/workspace/pomadorro', (req, res) => {
 });
 
 router.get('/workspace/calendar', (req, res) => {
-  res.sendFile(path.join(__dirname, '../webpages/todo.html'));
+  res.sendFile(path.join(__dirname, '../webpages/calendar.html'));
 });
 
 router.post("/register", async (req, res) => {
