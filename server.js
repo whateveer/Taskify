@@ -27,9 +27,13 @@ app.use(cookieParser());
 //Eto vse lomalo ¯\_(ツ)_/¯
 //app.use(notFound)
 
+//Use middleware globally
+//app.use(authMiddleware)
+
+
 // Use routes
 app.use("/", routes);
-app.use("/api/v1/tasks", authMiddleware, taskRoutes); //, authMiddleware
+app.use("/api/v1/tasks", taskRoutes); //, authMiddleware
 
 // app.use("/api/v1/tasks", taskRoutes); 
 

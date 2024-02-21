@@ -6,25 +6,27 @@ module.exports = function (req, res, next) {
     const authHeader = decodeURIComponent(req.cookies.accessToken);
 
     if (!authHeader) {
-      throw new Error("Unauthorized error 1");
+      throw new Error("Unauthorized error 1. !authHeader");
     }
 
     const accessToken = authHeader.split(" ")[1];
-    // const decoded = jwtDecode(accessToken);
-    // console.log(decoded.id);
+    const decoded = jwtDecode(accessToken);
 
     if (!accessToken) {
-      throw new Error("Unauthorized error 2");
+      throw new Error("Unauthorized error 2. !accessToken");
     }
-    //console.log(accessToken)
     const userData = tokenService.validateAccessToken(accessToken);
     if (!userData) {
-      throw new Error("Unauthorized error 3");
+      throw new Error("Unauthorized error 3. !userData");
     }
-    console.log("User is valid. Access granted");
-    req.user = userData;
+
+    req.user = decoded.id;
     next();
   } catch (e) {
-    console.log(e);
+    res.redirect("/login");
+
+    return res.status(403).json({message:"sdvcd"});
+
   }
+  // res.redirect("/registr");
 };

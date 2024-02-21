@@ -94,6 +94,8 @@ class MailService {
                     <form action="${link}">
                         <button class="verify-button" type="submit">Verify</button>
                     </form>
+
+                    Or go by this link: ${link}
                 </div>
             </body>
             </html>

@@ -2,11 +2,16 @@
 const express = require("express");
 const router = express.Router();
 const Task = require("../models/task");
+const authMiddleware = require("../middlewares/auth-middleware");
+
+router.use(authMiddleware)
 
 // Get all tasks
 router.get("/", async (req, res) => {
   try {
-    const tasks = await Task.find().sort({ createdAt: -1 }); // Sort tasks by creation time in descending order
+    const userId = req.user;
+
+    const tasks = await Task.find({ userId }).sort({ createdAt: -1 });
     res.json(tasks);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -16,13 +21,16 @@ router.get("/", async (req, res) => {
 // Add a new task
 router.post("/", async (req, res) => {
   try {
-    const userId = req.user
-    console.log("dcd",userId.id)
+    const userid = req.user;
+
     const task = new Task({
+      userId: userid,
       text: req.body.text,
     });
 
+    console.log(task);
     const newTask = await task.save();
+
     res.status(201).json(newTask);
   } catch (error) {
     res.status(400).json({ message: error.message });

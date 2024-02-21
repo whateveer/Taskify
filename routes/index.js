@@ -9,7 +9,8 @@ const uuid = require("uuid");
 const mailService = require("../service/mail-service");
 const tokenService = require("../service/token-service");
 const UserDTO = require("../dtos/user-dto");
-const Event = require('../models/event.js');
+const Event = require("../models/event.js");
+const authMiddleware = require("../middlewares/auth-middleware");
 
 // Middleware for parsing JSON data
 router.use(bodyParser.json());
@@ -28,16 +29,16 @@ router.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "../webpages/login.html"));
 });
 
-router.get('/workspace/todo', (req, res) => {
-  res.sendFile(path.join(__dirname, '../webpages/todo.html'));
+router.get("/workspace/todo", authMiddleware, (req, res) => {
+  res.sendFile(path.join(__dirname, "../webpages/todo.html"));
 });
 
-router.get('/workspace/pomadorro', (req, res) => {
-  res.sendFile(path.join(__dirname, '../webpages/pomodorro.html'));
+router.get("/workspace/pomadorro", authMiddleware, (req, res) => {
+  res.sendFile(path.join(__dirname, "../webpages/pomodorro.html"));
 });
 
-router.get('/workspace/calendar', (req, res) => {
-  res.sendFile(path.join(__dirname, '../webpages/calendar.html'));
+router.get("/workspace/calendar", authMiddleware, (req, res) => {
+  res.sendFile(path.join(__dirname, "../webpages/calendar.html"));
 });
 
 router.post("/register", async (req, res) => {
@@ -92,7 +93,6 @@ router.post("/register", async (req, res) => {
       httpOnly: true,
     });
 
-    
     // return res.json(tokens)
 
     res.status(201).send("User registered successfully! Check email");
@@ -137,15 +137,14 @@ router.post("/login", async (req, res) => {
       httpOnly: true,
     });
 
-    res.cookie("accessToken","Bearer "+ userData.accessToken, {
+    res.cookie("accessToken", "Bearer " + userData.accessToken, {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
 
-
     // Redirect to the home page (workspace) after successful login
     res.redirect("/workspace/todo");
-    
+
     // return {...tokens, user: userDTO}
     //res.setHeader('Authorization', 'Bearer '+ tokens.accessToken);
     //res.status(200).json({...tokens});
