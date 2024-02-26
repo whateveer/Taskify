@@ -265,7 +265,7 @@ function updateEvents(date) {
         </div>`;
   }
   eventsContainer.innerHTML = events;
-  saveEvents();
+  // saveEvents();
 }
 
 //function to add event
@@ -407,13 +407,6 @@ addEventSubmit.addEventListener("click", () => {
     });
   }
 
-  //added 
-  // newEvents.push({
-  //   day: activeDay,
-  //   month: month + 1,
-  //   year: year,
-  //   events: [newEvent]
-  // });
 
   console.log(eventsArr);
   addEventWrapper.classList.remove("active");
@@ -459,14 +452,6 @@ eventsContainer.addEventListener("click", (e) => {
     }
   }
 });
-
-//function to save events in local storage
-function saveEvents() {
-  localStorage.setItem("events", JSON.stringify(eventsArr));
-}
-
-
-// Call the function to send events to the backend
 
 
 
@@ -526,31 +511,32 @@ function sendEventsToBackendOnClick() {
   });
 }
 
-// Function to handle click event and send all events to the backend
 
 
-// function sendEventsToBackendOnClick() {
-//   // Make an HTTP POST request to your backend API endpoint
-//   fetch('/api/v1/events', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify(eventsArr) // Send all events to the backend
-//   })
-//   .then(response => {
-//     if (!response.ok) {
-//       throw new Error('Failed to send events to the backend');
-//     }
-//     return response.json();
-//   })
-//   .then(data => {
-//     console.log('Events successfully sent to the backend:', data);
-//     // Optionally, you can perform any actions after successfully sending events to the backend
-//   })
-//   .catch(error => {
-//     console.error('Error sending events to the backend:', error);
-//     // Handle errors if the request fails
-//   });
-// }
+// Update the getEvents function to fetch events from the backend
+async function getEventsFromBackend() {
+  try {
+    const response = await fetch('/api/v1/events');
+    if (!response.ok) {
+      throw new Error('Failed to fetch events from the backend');
+    }
+    const events = await response.json();
+    return events;
+  } catch (error) {
+    console.error('Error fetching events from the backend:', error);
+    return []; // Return an empty array if there's an error
+  }
+}
+
+// Call the getEventsFromBackend function to fetch events when the page loads
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const events = await getEventsFromBackend();
+    eventsArr.push(...events);
+    initCalendar(); // Initialize the calendar with fetched events
+  } catch (error) {
+    console.error('Failed to initialize calendar with events:', error);
+  }
+});
+
 
