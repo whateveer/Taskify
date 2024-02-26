@@ -306,7 +306,7 @@ function defineProperty() {
   document.body.appendChild(osccred);
 }
 
-defineProperty();
+//defineProperty();
 
 //allow only time in eventtime from and to
 addEventFrom.addEventListener("input", (e) => {
@@ -328,6 +328,8 @@ addEventTo.addEventListener("input", (e) => {
     addEventTo.value = addEventTo.value.slice(0, 5);
   }
 });
+
+
 
 //function to add event to eventsArr
 addEventSubmit.addEventListener("click", () => {
@@ -405,6 +407,14 @@ addEventSubmit.addEventListener("click", () => {
     });
   }
 
+  //added 
+  // newEvents.push({
+  //   day: activeDay,
+  //   month: month + 1,
+  //   year: year,
+  //   events: [newEvent]
+  // });
+
   console.log(eventsArr);
   addEventWrapper.classList.remove("active");
   addEventTitle.value = "";
@@ -455,6 +465,11 @@ function saveEvents() {
   localStorage.setItem("events", JSON.stringify(eventsArr));
 }
 
+
+// Call the function to send events to the backend
+
+
+
 //function to get events from local storage
 function getEvents() {
   //check if events are already saved in local storage then return event else nothing
@@ -474,3 +489,68 @@ function convertTime(time) {
   time = timeHour + ":" + timeMin + " " + timeFormat;
   return time;
 }
+
+
+// Attach event listener to the button
+const addEventBtnfetch = document.getElementById("addEventbtn");
+addEventBtnfetch.addEventListener("click", sendEventsToBackendOnClick);
+
+
+
+//Function to handle click event and send events to the backend
+function sendEventsToBackendOnClick() {
+  // Retrieve the newly added event from the local storage
+  const newEvent = eventsArr[eventsArr.length - 1];
+  
+  // Make an HTTP POST request to your backend API endpoint
+  fetch('/api/v1/events', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newEvent) // Send only the newly added event
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Failed to send the event to the backend');
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('Event successfully sent to the backend:', data);
+    // Optionally, you can perform any actions after successfully sending the event to the backend
+  })
+  .catch(error => {
+    console.error('Error sending the event to the backend:', error);
+    // Handle errors if the request fails
+  });
+}
+
+// Function to handle click event and send all events to the backend
+
+
+// function sendEventsToBackendOnClick() {
+//   // Make an HTTP POST request to your backend API endpoint
+//   fetch('/api/v1/events', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify(eventsArr) // Send all events to the backend
+//   })
+//   .then(response => {
+//     if (!response.ok) {
+//       throw new Error('Failed to send events to the backend');
+//     }
+//     return response.json();
+//   })
+//   .then(data => {
+//     console.log('Events successfully sent to the backend:', data);
+//     // Optionally, you can perform any actions after successfully sending events to the backend
+//   })
+//   .catch(error => {
+//     console.error('Error sending events to the backend:', error);
+//     // Handle errors if the request fails
+//   });
+// }
+

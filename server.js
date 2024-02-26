@@ -5,6 +5,7 @@ const connectDB = require("./config/database");
 const routes = require("./routes/index");
 const cookieParser = require("cookie-parser");
 const authMiddleware = require("./middlewares/auth-middleware");
+const eventsRouter = require('./routes/events');
 
 const app = express();
 const port = 3000;
@@ -34,6 +35,7 @@ app.use(cookieParser());
 // Use routes
 app.use("/", routes);
 app.use("/api/v1/tasks", taskRoutes); //, authMiddleware
+app.use('/api/v1/events', eventsRouter);
 
 // app.use("/api/v1/tasks", taskRoutes); 
 

@@ -1,16 +1,19 @@
-// EventModel.js
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-// const eventSchema = new mongoose.Schema({
-//   day: Number,
-//   month: Number,
-//   year: Number,
-//   events: [{
-//     title: String,
-//     time: String
-//   }]
-// });
+const eventSchema = new mongoose.Schema({
+  userId: {
+    type: String,
+    required: true,
+  },
+  day: Number,
+  month: Number,
+  year: Number,
+  events: [{
+    title: String,
+    time: String
+  }]
+});
 
-// const Event = mongoose.model('Event', eventSchema);
+const Event = mongoose.model('Event', eventSchema);
 
-// module.exports = Event;
+module.exports = Event;
