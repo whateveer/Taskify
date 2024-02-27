@@ -6,6 +6,7 @@ const routes = require("./routes/index");
 const cookieParser = require("cookie-parser");
 const authMiddleware = require("./middlewares/auth-middleware");
 const eventsRouter = require('./routes/events');
+const rateLimit = require('express-rate-limit')
 
 const app = express();
 const port = 3000;
@@ -13,6 +14,12 @@ const hostname = "localhost";
 
 // Connect to the database
 connectDB();
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, //15 minutes
+	limit: 100, // Limit each IP to 100 requests per `window`
+})
+
 
 // Serve static files
 app.use("/webpages", express.static(__dirname + "/webpages"));
@@ -24,7 +31,7 @@ app.use("/public", express.static(__dirname + "/public"));
 
 app.use(express.json());
 app.use(cookieParser());
-
+app.use(limiter)
 //Eto vse lomalo ¯\_(ツ)_/¯
 //app.use(notFound)
 
