@@ -421,7 +421,7 @@ addEventSubmit.addEventListener("click", () => {
   }
 });
 
-//function to delete event when clicked on event
+// function to delete event when clicked on event
 eventsContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("event")) {
     if (confirm("Are you sure you want to delete this event?")) {
@@ -454,8 +454,6 @@ eventsContainer.addEventListener("click", (e) => {
 });
 
 
-
-//function to get events from local storage
 function getEvents() {
   //check if events are already saved in local storage then return event else nothing
   if (localStorage.getItem("events") === null) {

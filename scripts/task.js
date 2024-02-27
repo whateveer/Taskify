@@ -114,3 +114,21 @@ function saveEditedTask() {
         window.location.reload();
     });
 }
+
+document.getElementById('logoutLink').addEventListener('click', async (event) => {
+    event.preventDefault(); // Prevents the default action of navigating to "#"
+    try {
+      const response = await fetch('/logout', {
+        method: 'POST'
+      });
+      if (response.ok) {
+        // Handle successful logout (e.g., redirect to login page)
+        window.location.href = '/';
+      } else {
+        // Handle errors
+        console.error('Logout failed:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  });

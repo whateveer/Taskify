@@ -160,8 +160,11 @@ router.post("/logout", async (req, res) => {
     const token = await tokenService.removeToken(refreshToken);
 
     res.clearCookie("refreshToken");
+    res.clearCookie("accessToken");
     return res.json(token);
-  } catch (e) {}
+  } catch (e) {
+    next(e)
+  }
 });
 
 router.get("/activate/:link", async (req, res) => {
