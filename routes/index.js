@@ -154,6 +154,11 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// router.get("/changepass", async (req, res) => {
+//   try {
+//     const { refreshToken } = req.cookies;
+//     const userData = await tokenService.
+
 router.post("/logout", async (req, res) => {
   try {
     const { refreshToken } = req.cookies;
@@ -215,5 +220,6 @@ router.get("/refresh", async (req, res) => {
     });
   } catch (e) {}
 });
+
 
 module.exports = router;
