@@ -154,10 +154,25 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// router.get("/changepass", async (req, res) => {
+// router.get("/activate/:link", async (req, res) => {
 //   try {
-//     const { refreshToken } = req.cookies;
-//     const userData = await tokenService.
+//     const activationLink = req.params.link;
+//     const user = await User.findOne({ activationLink });
+
+//     if (!user) {
+//       throw new Error("Incorrect acrivation link");
+//     }
+
+//     user.isActivated = true;
+//     await user.save();
+
+//     //THEN REDIRECT USER TO THE PAGE
+//     // res.redirect(process.env.CLIENT_URL)
+//     res.redirect("/login");
+//   } catch (e) {
+//     console.error(e);
+//   }
+// });
 
 router.post("/logout", async (req, res) => {
   try {
