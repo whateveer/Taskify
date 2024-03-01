@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   password: String,
   isActivated: { type: Boolean, default: false },
   activationLink: String,
+  passwordActivationLink: String,
 });
 
 // Create a MongoDB Model

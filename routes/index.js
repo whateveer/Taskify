@@ -25,6 +25,14 @@ router.get("/registr", (req, res) => {
   res.sendFile(path.join(__dirname, "../webpages/registr.html"));
 });
 
+router.get("/psswd", (req, res) => {
+  res.sendFile(path.join(__dirname, "../webpages/forgot-password.html"));
+});
+
+router.get("/restorepsswd/:link", (req, res) => {
+  res.sendFile(path.join(__dirname, "../webpages/reset-password.html"));
+});
+
 router.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "../webpages/login.html"));
 });
@@ -154,25 +162,84 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// router.get("/activate/:link", async (req, res) => {
-//   try {
-//     const activationLink = req.params.link;
-//     const user = await User.findOne({ activationLink });
+router.post("/forgotpsswd", async (req, res) => {
+  try {
+    const { email } = req.body;
 
-//     if (!user) {
-//       throw new Error("Incorrect acrivation link");
-//     }
+    // Validate form fields
+    if (!email) {
+      return res.status(400).send("Both email is required.");
+    }
 
-//     user.isActivated = true;
-//     await user.save();
+    // Check if the user with the provided email exists
+    const user = await User.findOne({ email });
 
-//     //THEN REDIRECT USER TO THE PAGE
-//     // res.redirect(process.env.CLIENT_URL)
-//     res.redirect("/login");
-//   } catch (e) {
-//     console.error(e);
-//   }
-// });
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    const activationLink = uuid.v4();
+    user.passwordActivationLink = activationLink;
+    await user.save();
+
+    await mailService.sendPasswordMail(
+      email,
+      `${process.env.API_URL}/restorepsswd/${activationLink}`
+    );
+    res.status(201).send("Check email!");
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+router.post("/restore/:link", async (req, res) => {
+  try {
+    const activationLink = req.params.link;
+    const user = await User.findOne({ activationLink });
+    if (!user) {
+      throw new Error("Incorrect link");
+    }
+    res.render("reset-password", { link: activationLink });
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+router.post("/restorepsswd/:link", async (req, res) => {
+  try {
+    const passwordLink = req.params.link;
+    const user = await User.findOne({ passwordActivationLink: passwordLink });
+    if (!user) {
+      throw new Error("Incorrect link");
+    }
+
+    const { newPassword, confirmPassword } = req.body;
+    if (!newPassword || !confirmPassword) {
+      return res
+        .status(400)
+        .send("Both new password and confirm password are required.");
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res
+        .status(400)
+        .send("New password and confirm password do not match.");
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcryptjs.hash(newPassword, 10);
+
+    // Update the user's password
+    user.password = hashedPassword;
+    // Reset password activation link
+    user.passwordActivationLink = null;
+    await user.save();
+
+    res.status(200).send("Password reset successfully");
+    res.redirect("/login");
+  } catch (e) {
+    console.log(e);
+  }
+});
 
 router.post("/logout", async (req, res) => {
   try {
@@ -183,7 +250,7 @@ router.post("/logout", async (req, res) => {
     res.clearCookie("accessToken");
     return res.json(token);
   } catch (e) {
-    next(e)
+    next(e);
   }
 });
 
@@ -199,8 +266,7 @@ router.get("/activate/:link", async (req, res) => {
     user.isActivated = true;
     await user.save();
 
-    //THEN REDIRECT USER TO THE PAGE
-    // res.redirect(process.env.CLIENT_URL)
+    
     res.redirect("/login");
   } catch (e) {
     console.error(e);
@@ -235,6 +301,5 @@ router.get("/refresh", async (req, res) => {
     });
   } catch (e) {}
 });
-
 
 module.exports = router;

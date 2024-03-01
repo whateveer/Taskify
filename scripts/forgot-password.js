@@ -3,9 +3,9 @@ document.getElementById("forgotPasswordForm").addEventListener("submit", async f
   
     const formData = new FormData(this);
     const email = formData.get("email");
-  
+    console.log(email);
     try {
-      const response = await fetch("/forgot-password", {
+      const response = await fetch("/forgotpsswd", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
