@@ -234,7 +234,6 @@ router.post("/restorepsswd/:link", async (req, res) => {
     user.passwordActivationLink = null;
     await user.save();
 
-    res.status(200).send("Password reset successfully");
     res.redirect("/login");
   } catch (e) {
     console.log(e);
