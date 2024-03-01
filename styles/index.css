@@ -61,6 +61,8 @@
 
 
 
+
+
 @media(max-width: 767px) {
   .navigation-links-nav {
     align-items: flex-start;
@@ -264,6 +266,9 @@
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
+}
+.logo{
+  width: 150px;
 }
 .home-image {
   width: 100px;
@@ -554,8 +559,9 @@
   margin-bottom: var(--dl-space-space-doubleunit);
 }
 .home-image02 {
-  width: 320px;
+  width: 600px;
   object-fit: cover;
+  margin: 50px
 }
 .home-turquoise-cirble {
   top: 439px;
@@ -778,7 +784,7 @@
   background-color: var(--dl-color-purple-100);
 }
 .home-image07 {
-  width: 360px;
+  width: 600px;
   margin-top: 100px;
   object-fit: cover;
 }
@@ -874,7 +880,7 @@
   top: -100px;
   left: auto;
   right: var(--dl-space-space-doubleunit);
-  width: 232px;
+  width: 400px;
   bottom: auto;
   position: absolute;
   object-fit: cover;
