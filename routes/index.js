@@ -122,10 +122,16 @@ router.post("/login", async (req, res) => {
 
     // Check if the user with the provided email exists
     const user = await User.findOne({ email });
-
+    
     if (!user) {
       return res.status(404).send("User not found. Please register.");
     }
+
+    if (!user.isActivated) {
+      return res.status(401).send("Account is not activated! Check email");
+    }
+
+   
 
     // Compare the provided password with the hashed password in the database
     const isPasswordValid = await bcryptjs.compare(password, user.password);
